@@ -525,6 +525,7 @@ namespace DSAnimStudio.ImguiOSD
             //bool clicked_Tools_AnimationImporter = false;
             bool clicked_Tools_ManageTaeSections = false;
             bool clicked_Tools_ManageAnimationFiles = false;
+            bool clicked_Tools_ExportModelsAndAnimsFBX = false;
 
             if (ImGui.BeginMenu("Tools"))
             {
@@ -560,7 +561,7 @@ namespace DSAnimStudio.ImguiOSD
                 if (ClickItem("Export Model And Animations To FBX...",
                         enabled: Tae?.IsFileOpen == true && !LoadingTaskMan.AnyTasksRunning()))
                 {
-                    int a = 10;
+                    clicked_Tools_ExportModelsAndAnimsFBX = true;
                 }
                 
                 //ImGui.Separator();
@@ -722,6 +723,12 @@ namespace DSAnimStudio.ImguiOSD
                     Tae.ShowImportAllAnimNamesDialog();
                 });
                 
+            }else if (clicked_Tools_ExportModelsAndAnimsFBX)
+            {
+                Main.MainThreadLazyDispatch(() =>
+                {
+                    Tae.ShowExportModelAndAnimsFBXMenu();
+                });
             }
             //else if (clicked_Tools_ManageTaeSections)
             //{

@@ -160,6 +160,28 @@ namespace DSAnimStudio.TaeEditor
             }));
         }
 
+        // Export to FBX
+        public void ShowExportModelAndAnimsFBXMenu()
+        {
+            GameWindowAsForm.Invoke(new Action(() =>
+            {
+                if (!IsFileOpen)
+                    return;
+
+                if (ExportModelAndAnimsFBXMenu == null || ExportModelAndAnimsFBXMenu.IsDisposed)
+                {
+                    ExportModelAndAnimsFBXMenu = new TaeExportModelAndAnimsFBXForm();
+                    ExportModelAndAnimsFBXMenu.Owner = GameWindowAsForm;
+                    ExportModelAndAnimsFBXMenu.MainScreen = this;
+                    ExportModelAndAnimsFBXMenu.ShownInitValues();
+                }
+
+                ExportModelAndAnimsFBXMenu.Show();
+                Main.CenterForm(ExportModelAndAnimsFBXMenu);
+                ExportModelAndAnimsFBXMenu.Activate();
+            }));
+        }
+        
         public void ImmediateExportAllEventsToTextFile(string textFilePath)
         {
             var sb = new StringBuilder();
@@ -387,6 +409,7 @@ namespace DSAnimStudio.TaeEditor
 
         public TaeComboMenu ComboMenu = null;
         public TaeExportAllAnimsForm ExportAllAnimsMenu = null;
+        public TaeExportModelAndAnimsFBXForm ExportModelAndAnimsFBXMenu = null;
 
         public float AnimSwitchRenderCooldown = 0;
         public float AnimSwitchRenderCooldownMax = 0.3f;
@@ -1037,6 +1060,8 @@ namespace DSAnimStudio.TaeEditor
                 ComboMenu = null;
                 ExportAllAnimsMenu?.Close();
                 ExportAllAnimsMenu = null;
+                ExportModelAndAnimsFBXMenu?.Close();
+                ExportModelAndAnimsFBXMenu = null;
             }));
             SelectedTaeAnim = SelectedTae.Animations[0];
             AnimationListScreen = new TaeEditAnimList(this);
